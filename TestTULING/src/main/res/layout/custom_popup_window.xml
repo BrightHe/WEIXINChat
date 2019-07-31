@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/id_pop_layout"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/vChat_re"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp">
+
+        <ImageView
+            android:id="@+id/vChat_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/v_chat"
+            />
+
+        <TextView
+            android:id="@+id/vChat_txt"
+            android:layout_below="@+id/vChat_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pop_window_v_chat"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/camera_re"
+        android:layout_toRightOf="@+id/vChat_re"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp">
+
+        <ImageView
+            android:id="@+id/camera_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/camera"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/camera_txt"
+            android:layout_below="@+id/camera_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pop_window_camera_txt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/pictures_re"
+        android:layout_toRightOf="@+id/camera_re"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp">
+
+        <ImageView
+            android:id="@+id/pictures_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/pictures"
+            />
+
+        <TextView
+            android:id="@+id/pictures_txt"
+            android:layout_below="@+id/pictures_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pop_window_pictures_txt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            />
+    </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

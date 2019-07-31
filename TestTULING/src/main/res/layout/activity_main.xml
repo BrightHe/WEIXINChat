@@ -1,0 +1,80 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#f6f6f6">
+
+    <!-- transcriptMode 自动向下滚动    alwaysScroll一直向下滚动状态;   divider设置间隔线效果 ;   listSelector设置没有滑动效果 -->
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:divider="@null"
+        android:listSelector="@android:color/transparent"
+        android:transcriptMode="alwaysScroll"
+        >
+    </ListView>
+
+    <RelativeLayout
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/lv"
+        android:background="#ffffff">
+
+        <EditText
+            android:id="@+id/et_sendText"
+            android:layout_width="260dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="7dp"
+            android:background="@null"/>
+
+        <robot.com.myapplication.recorder.AudioRecorderButton
+            android:id="@+id/id_recorder_button"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/btn_recorder_normal"
+            android:gravity="center"
+            android:minHeight="0dp"
+            android:padding="5dp"
+            android:text="@string/str_recorder_normal"
+            android:textColor="#727272"
+            android:visibility="gone"
+            >
+        </robot.com.myapplication.recorder.AudioRecorderButton>
+
+        <TextView
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@+id/et_sendText"
+            android:background="#fff"
+            android:gravity="center"
+            android:text="发送"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:id="@+id/pop_plus"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/btn_send"
+            android:clickable="true"
+            android:src="@drawable/plus_normal"
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>
