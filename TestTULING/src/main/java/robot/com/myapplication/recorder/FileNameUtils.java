@@ -15,11 +15,16 @@ public class FileNameUtils {
     private static String fileName;
 
     public static String getFileName() {
-        Log.i( TAG, "getFileName: "+fileName );
         return fileName;
     }
 
     public static void setFileName( ) {
         FileNameUtils.fileName = DateFormat.format("yyyyMMdd_hhmmss", Calendar.getInstance( Locale.CHINA))+".amr";
     }
+    public static String subString(String filePath){
+        String cutName = filePath.substring( 55 );
+        Log.i( TAG, "subString: cutName is "+cutName );
+        return cutName;
+    }
+
 }

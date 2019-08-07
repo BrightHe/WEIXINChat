@@ -12,6 +12,7 @@ import com.tencent.cos.xml.listener.CosXmlProgressListener;
 import com.tencent.cos.xml.listener.CosXmlResultListener;
 import com.tencent.cos.xml.model.CosXmlRequest;
 import com.tencent.cos.xml.model.CosXmlResult;
+import com.tencent.cos.xml.transfer.COSXMLDownloadTask;
 import com.tencent.cos.xml.transfer.COSXMLUploadTask;
 import com.tencent.cos.xml.transfer.TransferConfig;
 import com.tencent.cos.xml.transfer.TransferManager;
@@ -20,6 +21,8 @@ import com.tencent.cos.xml.transfer.TransferStateListener;
 import com.tencent.qcloud.core.auth.QCloudCredentialProvider;
 import com.tencent.qcloud.core.auth.ShortTimeCredentialProvider;
 
+import java.io.File;
+
 import robot.com.myapplication.app.AppStr;
 import robot.com.myapplication.recorder.FileNameUtils;
 
@@ -27,7 +30,7 @@ import robot.com.myapplication.recorder.FileNameUtils;
  * Created by Administrator on 2019/7/30.
  */
 
-public class PostAmr {
+public class PostObj {
     private String TAG = "Test";
     private static String amrDir,httpMessage;
 
@@ -39,7 +42,7 @@ public class PostAmr {
         return httpMessage;
     }
 
-    public void PostPic(Context context, String filePath){
+    public void PostObject(Context context, String filePath,int flag){
         String region = "ap-chengdu";//存储桶所在的地域
         String secretId = "AKIDTfdNr6E5KK5dvvnv54oOnJYVIyPe5S3T"; //永久密钥 secretId
         String secretKey ="djfVFBQWYaVu7C6qTxKeV6WkjVGrRnRv"; //永久密钥 secretKey
@@ -58,7 +61,11 @@ public class PostAmr {
                 secretKey, 300);
         //初始化CosXmlService 服务类，用来操作各种 COS 服务
         CosXmlService cosXmlService = new CosXmlService(context , serviceConfig, credentialProvider);
-        uploadObject(cosXmlService,context,filePath);
+        if(flag == 1){
+            uploadObject(cosXmlService,context,filePath);
+        }else{
+            downloadObject( context,cosXmlService,filePath );
+        }
     }
 
     //上传对象
@@ -158,6 +165,76 @@ public class PostAmr {
 
         //恢复上传
         cosxmlUploadTask.resume();*/
+    }
+
+
+    //下载对象
+    public void downloadObject(final Context context, CosXmlService cosXmlService, final String filePath){
+        //        Context applicationContext = "application 上下文"; // getApplicationContext()
+        String bucket = "pic-001-1259665619"; //对象所在的存储桶                                    存储桶名称
+        String cosPath = FileNameUtils.subString( filePath ); //即对象在 COS 上的绝对路径,格式如 cosPath = "text.txt";                 对象键
+        final File file = new File(context.getExternalCacheDir()+"/receive_audios","");
+        final String savedDirPath = file.getPath();                                                                  // 对象下载到本地的文件夹路径
+        Log.i( TAG, "downloadObject: "+savedDirPath );
+        FileNameUtils.setFileName();
+        final String savedFileName = FileNameUtils.getFileName();//若不填（null）,则与 cos 上的对象名一样                            对象下载到本地的文件名
+        // 初始化 TransferConfig
+        TransferConfig transferConfig = new TransferConfig.Builder().build();
+        //初始化 TransferManager
+        TransferManager transferManager = new TransferManager(cosXmlService, transferConfig);
+        //下载对象
+        COSXMLDownloadTask cosxmlDownloadTask = transferManager.download(context, bucket, cosPath, savedDirPath, savedFileName);
+        //设置下载进度回调
+        cosxmlDownloadTask.setCosXmlProgressListener(new CosXmlProgressListener() {
+            @Override
+            public void onProgress(long complete, long target) {
+                float progress = 1.0f * complete / target * 100;
+                Log.d(TAG,  String.format("progress = %d%%", (int)progress));
+            }
+        });
+        //设置返回结果回调
+        cosxmlDownloadTask.setCosXmlResultListener(new CosXmlResultListener() {
+            @Override
+            public void onSuccess(CosXmlRequest request, CosXmlResult result) {
+                COSXMLDownloadTask.COSXMLDownloadTaskResult cOSXMLDownloadTaskResult = (COSXMLDownloadTask.COSXMLDownloadTaskResult)result;
+                Log.d(TAG,  "Success: " + cOSXMLDownloadTaskResult.httpMessage);
+                httpMessage = cOSXMLDownloadTaskResult.httpMessage;
+                amrDir = savedDirPath+"/"+savedFileName;
+                Log.i( TAG, "filePathRecorder is : "+amrDir );
+                AppStr appStr = (AppStr)context.getApplicationContext();
+                appStr.setIsCompleted( true );
+            }
+
+            @Override
+            public void onFail(CosXmlRequest request, CosXmlClientException exception, CosXmlServiceException serviceException) {
+                Log.d(TAG,  "Failed: " + (exception == null ? serviceException.getMessage() : exception.toString()));
+                AppStr appStr = (AppStr)context.getApplicationContext();
+                appStr.setIsCompleted( true );
+            }
+        });
+        //设置任务状态回调, 可以查看任务过程
+        cosxmlDownloadTask.setTransferStateListener(new TransferStateListener() {
+            @Override
+            public void onStateChanged(TransferState state) {
+                Log.d(TAG, "Task state:" + state.name());
+            }
+        });
+
+        /**
+         若有特殊要求，则可以如下操作：
+         GetObjectRequest getObjectRequest = new GetObjectRequest(bucket, cosPath, localDir, localFileName);
+         getObjectRequest.setRegion(region); //设置存储桶所在的地域
+         COSXMLDownloadTask cosxmlDownloadTask = transferManager.download(context, getObjectRequest);
+         */
+
+       /* //取消下载
+        cosxmlDownloadTask.cancel();
+
+        //暂停下载
+        cosxmlDownloadTask.pause();
+
+        //恢复下载
+        cosxmlDownloadTask.resume();*/
     }
 
 }

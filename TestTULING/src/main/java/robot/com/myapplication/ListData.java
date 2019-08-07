@@ -15,12 +15,12 @@ public class ListData extends Recorder{
 	private String publishTime;
 	private int infType;
 	private String picPath;
+	private String amrFilePath;
 
 	/**
 	 * 初始化
 	 */
-	public ListData(){
-	}
+	public ListData(){}
 
 	/**
 	 * 语音发送
@@ -112,6 +112,14 @@ public class ListData extends Recorder{
 
 	public void setPicPath(String picPath) {
 		this.picPath = picPath;
+	}
+
+	public String getAmrFilePath() {
+		return amrFilePath;
+	}
+
+	public void setAmrFilePath(String amrFilePath) {
+		this.amrFilePath = amrFilePath;
 	}
 
 	@Override

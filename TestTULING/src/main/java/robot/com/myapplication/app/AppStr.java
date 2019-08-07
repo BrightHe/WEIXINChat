@@ -10,13 +10,22 @@ import android.util.Log;
 public class AppStr extends Application {
     private String TAG = "Test";
     private boolean isCompleted;
+    private boolean isDownLoad;
 
-    public boolean getIsCompleted() {
+    public boolean IsCompleted() {
         return isCompleted;
     }
 
     public void setIsCompleted(boolean isCompleted) {
         Log.i( TAG, "setIsCompleted: "+isCompleted );
         this.isCompleted = isCompleted;
+    }
+
+    public boolean isDownLoad() {
+        return isDownLoad;
+    }
+
+    public void setDownLoad(boolean downLoad) {
+        isDownLoad = downLoad;
     }
 }

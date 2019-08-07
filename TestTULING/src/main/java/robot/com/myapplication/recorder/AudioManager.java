@@ -4,7 +4,6 @@ import android.media.MediaRecorder;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 /**
  * 录音管理
@@ -92,9 +91,9 @@ public class AudioManager {
     //    生成UUID唯一标示符
     //    算法的核心思想是结合机器的网卡、当地时间、一个随即数来生成GUID
     //    .amr音频文件
-    private String generateFileName() {
-        return UUID.randomUUID().toString()+".amr";
-    }
+//    private String generateFileName() {
+//        return UUID.randomUUID().toString()+".amr";
+//    }
 
     public int getVoiceLevel(int maxLevel) {
         if (isPrepared) {
@@ -109,9 +108,11 @@ public class AudioManager {
     }
 
     public void release() {
-        mMediaRecorder.stop();
-        mMediaRecorder.release();
-        mMediaRecorder = null;
+        if(mMediaRecorder != null){
+            mMediaRecorder.stop();
+            mMediaRecorder.release();
+            mMediaRecorder = null;
+        }
     }
 
     public void cancel(){

@@ -39,8 +39,6 @@ public class PushCallback implements MqttCallback {
         Log.i( TAG, "messageArrived: 接收消息主题:" +topic);
         Log.i( TAG, "messageArrived: 接收消息Qos:" +message.getQos());
         Log.i( TAG, "messageArrived: 接收消息内容:"+new String( message.getPayload() ) );
-
-        Log.i(TAG,"topic is :"+topic);
         Log.i(TAG,"pushCallBack messages is :"+ message.toString());
 
         Gson gson = new Gson();
@@ -49,8 +47,9 @@ public class PushCallback implements MqttCallback {
         Intent intent = new Intent(Constants.MY_MQTT_BROADCAST_NAME);
         if(listData.getToUser() != null && listData.getToUser().equals( "HZH" )){
             listData.setFlag( ListData.RECEIVE );
+            listData.setAmrFilePath( null );
             String re_message = gson.toJson( listData,ListData.class );
-            Log.i( TAG, "messageArrived: re_message is "+re_message );
+//            Log.i( TAG, "messageArrived: re_message is "+re_message );
             intent.putExtra("message",re_message);
         }
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(ctx);
